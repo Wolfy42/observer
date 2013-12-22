@@ -1,0 +1,24 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+	<div class="graphDiv record-row" id="${graphName}" style="height:100px;width:100%; "></div>
+	
+	<script type="text/javascript">
+	     $(document).ready(function() {
+	         $.jqplot('${graphName}',  [[${graphData}]], {
+			   axes:{
+			     yaxis:{
+			       min:0, max:3000
+			     },
+			     xaxis:{
+			       renderer:$.jqplot.DateAxisRenderer,
+			       tickOptions:{formatString:'%M:%S'},
+			     }
+			   },
+			   seriesDefaults:{
+			     showMarker:false
+			   }
+			 });
+	     });
+	</script>
+
+</t:container>

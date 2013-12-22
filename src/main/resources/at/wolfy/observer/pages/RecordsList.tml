@@ -1,0 +1,21 @@
+<html t:type="layout" 
+	  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+
+  <t:loop source="records" value="record" formState="none">
+    <div class="row">
+      <div class="col-md-2">
+        <a href="#" 
+           t:type="ActionLink" 
+           t:context="record"
+           t:id="recordLink">
+           ${recordName}
+        </a>
+      </div>
+      <div class="col-md-10">
+        <t:audioGraph audioRecord="record"/>
+      </div>
+    </div>
+  </t:loop>
+
+</html>
