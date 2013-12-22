@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 @Entity
@@ -16,7 +17,7 @@ public class AudioRecord implements Serializable {
 	@Id
 	private Date start;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<Integer> volumes;
 	
 	private String directory;

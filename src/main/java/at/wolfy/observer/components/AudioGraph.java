@@ -3,6 +3,7 @@ package at.wolfy.observer.components;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
@@ -17,30 +18,49 @@ public class AudioGraph {
 
     @Property
     @Parameter(required = true)
-    private AudioRecord audioRecord;
+    private List<AudioRecord> audioRecords;
+    
+    @Property
+    @Parameter
+    private boolean startWithZero;
     
     public String getGraphName() {
-    	return "Graph_" + audioRecord.getStart().getTime();
+    	return "Graph_" + audioRecords.hashCode();
+    }
+    
+    public String getTickFormat() {
+    	if (startWithZero) {
+    		return "%M:%S";
+    	} else {
+    		return "%H:%M";
+    	}
     }
     
     public String getGraphData() throws ParseException {
 		Calendar cal = GregorianCalendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-    	
-    	StringBuilder sb = new StringBuilder();
-    	for (Integer result : audioRecord.getVolumes()) {
-    		if  (sb.length() != 0) {
-    			sb.append(",");
+		StringBuilder sb = new StringBuilder();
+		
+    	for (AudioRecord ar : audioRecords) {
+    		if (startWithZero) {
+    			cal.set(Calendar.MINUTE, 0);
+    			cal.set(Calendar.SECOND, 0);
+    		} else {
+    			cal.setTime(ar.getStart());
     		}
-    		sb.append("[")
-    		  .append(cal.getTimeInMillis())
-    		  .append(",")
-    		  .append(result)
-    		  .append("]");
-    		cal.add(Calendar.SECOND, 1);
+    		
+        	for (Integer result : ar.getVolumes()) {
+        		if  (sb.length() != 0) {
+        			sb.append(",");
+        		}
+        		sb.append("[")
+        		  .append(cal.getTimeInMillis())
+        		  .append(",")
+        		  .append(result)
+        		  .append("]");
+        		cal.add(Calendar.SECOND, 1);
+        	}
     	}
+    	
     	return sb.toString();
     }
 }

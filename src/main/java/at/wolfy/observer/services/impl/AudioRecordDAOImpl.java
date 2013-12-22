@@ -5,7 +5,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import at.wolfy.observer.entities.AudioRecord;
@@ -13,6 +16,8 @@ import at.wolfy.observer.services.AudioRecordDAO;
 
 public class AudioRecordDAOImpl implements AudioRecordDAO {
 
+	private static Logger log = Logger.getLogger(AudioRecordDAOImpl.class);
+	
 	@Inject
     private Session session;
 	
@@ -25,12 +30,16 @@ public class AudioRecordDAOImpl implements AudioRecordDAO {
 	public AudioRecord findById(Date start) {
 		return (AudioRecord) session.createCriteria(AudioRecord.class)
 		       .add(Restrictions.eq("start", start))
-		       .list().get(0);
+		       .uniqueResult();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<AudioRecord> findAll() {
-		return  session.createCriteria(AudioRecord.class).list();
+		log.info("Going to search all records.");
+		return  session.createCriteria(AudioRecord.class)
+					   .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+					   .addOrder(Order.desc("start"))
+					   .list();
 	}
 }

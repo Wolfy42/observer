@@ -11,7 +11,7 @@
 			     },
 			     xaxis:{
 			       renderer:$.jqplot.DateAxisRenderer,
-			       tickOptions:{formatString:'%M:%S'},
+			       tickOptions:{formatString:'${tickFormat}'},
 			     }
 			   },
 			   seriesDefaults:{

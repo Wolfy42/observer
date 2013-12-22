@@ -2,20 +2,86 @@
 	  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
 
-  <t:loop source="records" value="record" formState="none">
-    <div class="row">
-      <div class="col-md-2">
+  <t:if test="showAudioRecordDays">
+    <ul class="pager">
+      <li>
         <a href="#" 
-           t:type="ActionLink" 
-           t:context="record"
-           t:id="recordLink">
-           ${recordName}
+	       t:type="ActionLink" 
+	       t:id="updateRecordsLink">
+	       ${message:refresh}
         </a>
+      </li>
+    </ul>
+    <t:loop source="audioRecordDays" value="audioRecordDay">
+      <div class="row">
+        <div class="col-md-2">
+          <a href="#" 
+             t:type="ActionLink" 
+             t:context="audioRecordDayIndex"
+             t:id="audioRecordDaySelectLink">
+             ${audioRecordDayName}
+          </a>
+        </div>
+        <div class="col-md-10">
+          <t:audioGraph audioRecords="audioRecordDayRecords"/>
+        </div>
       </div>
-      <div class="col-md-10">
-        <t:audioGraph audioRecord="record"/>
+    </t:loop>
+  </t:if>
+  
+  <t:if test="showAudioRecordHours">
+    <ul class="pager">
+      <li class="previous">
+        <a href="#" 
+	       t:type="ActionLink" 
+	       t:id="deselectDayLink">
+	       ${message:back}
+        </a>
+      </li>
+    </ul>
+    <t:loop source="audioRecordHours" value="audioRecordHour">
+      <div class="row">
+        <div class="col-md-2">
+          <a href="#" 
+             t:type="ActionLink" 
+             t:context="audioRecordHourIndex"
+             t:id="audioRecordHourSelectLink">
+             ${audioRecordHourName}
+          </a>
+        </div>
+        <div class="col-md-10">
+          <t:audioGraph audioRecords="audioRecordHourRecords"/>
+        </div>
       </div>
-    </div>
-  </t:loop>
+    </t:loop>
+  </t:if>
+  
+  <t:if test="showAudioRecords">
+    <ul class="pager">
+      <li class="previous">
+        <a href="#" 
+	       t:type="ActionLink" 
+	       t:id="deselectHourLink">
+	       ${message:back}
+        </a>
+      </li>
+    </ul>
+    <t:loop source="audioRecords" value="audioRecord">
+      <div class="row">
+        <div class="col-md-2">
+          <a href="#" 
+             t:type="ActionLink" 
+             t:context="audioRecordIndex"
+             t:id="audioRecordSelectLink">
+             ${audioRecordName}
+          </a>
+        </div>
+        <div class="col-md-10">
+          <t:audioGraph audioRecords="audioRecord" startWithZero="true"/>
+        </div>
+      </div>
+    </t:loop>
+  </t:if>
+
 
 </html>
