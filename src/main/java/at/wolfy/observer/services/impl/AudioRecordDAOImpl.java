@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import at.wolfy.observer.entities.AudioRecord;
@@ -37,9 +38,18 @@ public class AudioRecordDAOImpl implements AudioRecordDAO {
 	@SuppressWarnings("unchecked")
 	public List<AudioRecord> findAll() {
 		log.info("Going to search all records.");
-		return  session.createCriteria(AudioRecord.class)
-					   .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-					   .addOrder(Order.desc("start"))
-					   .list();
+		return session.createCriteria(AudioRecord.class)
+					  .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+					  .addOrder(Order.desc("start"))
+					  .list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Date> findAllStartDates() {
+		log.info("Going to search for all dates.");
+		return session.createCriteria(AudioRecord.class)
+				.setProjection(Projections.property("start"))
+				.list();
 	}
 }

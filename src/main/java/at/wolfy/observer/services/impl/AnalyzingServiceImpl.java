@@ -38,15 +38,15 @@ public class AnalyzingServiceImpl implements AnalyzingService {
 	public void analyzeRecords() {
 		log.info("checking for records");
 		List<File> records = recordsService.getRecords();
-		List<AudioRecord> audioRecords = audioRecordService.findAll();
-		log.info("Stored audioRecords: " + audioRecords.size());
+		List<Date> startDates = audioRecordService.findAllStartDates();
+		log.info("Stored audioRecords: " + startDates.size());
 		SimpleDateFormat recordFormatter = new SimpleDateFormat("yyyyMMddHHmm");
 		
 		for (File record : records) {
 			try {
 				String[] parts = record.getName().split("_");
 				Date date = recordFormatter.parse(parts[0] + parts[1]);
-				if (isNotAnalyzed(audioRecords, date)) {
+				if (isNotAnalyzed(startDates, date)) {
 					List<Integer> maxVolumes = calculateMaxVolumes(record);
 					AudioRecord ar = new AudioRecord();
 					ar.setStart(date);
@@ -61,9 +61,9 @@ public class AnalyzingServiceImpl implements AnalyzingService {
 		}
 	}
 	
-	private boolean isNotAnalyzed(List<AudioRecord> audioRecords, Date startDate) {
-		for (AudioRecord ar : audioRecords) {
-			if (ar.getStart().getTime() == startDate.getTime()) {
+	private boolean isNotAnalyzed(List<Date> startDates, Date startDate) {
+		for (Date start : startDates) {
+			if (start.getTime() == startDate.getTime()) {
 				return false;
 			}
 		}

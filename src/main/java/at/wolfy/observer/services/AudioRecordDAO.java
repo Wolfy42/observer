@@ -16,5 +16,8 @@ public interface AudioRecordDAO {
 	public AudioRecord findById(Date start);
 	
 	@CommitAfter
+	public List<Date> findAllStartDates();
+	
+	@CommitAfter
 	public List<AudioRecord> findAll();
 }
