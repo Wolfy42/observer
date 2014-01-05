@@ -16,7 +16,10 @@
 			   },
 			   seriesDefaults:{
 			     showMarker:false,
-			     shadow:false
+			     shadow:false,
+			     rendererOptions: {
+			       smooth: true
+			     }
 			   },
 			   grid:{
 			     shadow: false

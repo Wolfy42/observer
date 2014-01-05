@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -101,7 +103,7 @@ public class RecordsList {
 			maxVolume = 0;
 			for (AudioRecord ar : arh.getAudioRecords()) {
 				for (Integer vol : ar.getVolumes()) {
-					maxVolume = Math.max(0, vol);
+					maxVolume = Math.max(maxVolume, vol);
 				}
 				AudioRecord reducedAr = new AudioRecord();
 				reducedAr.setStart(ar.getStart());
@@ -117,7 +119,29 @@ public class RecordsList {
 	}
 	
 	public List<AudioRecord> getAudioRecordHourRecords() {
-		return audioRecordHour.getAudioRecords();
+		List<AudioRecord> ars = new LinkedList<>();
+		Integer maxVolume;
+		int idx;
+		int groupBySeconds = 30;
+		Calendar cal = GregorianCalendar.getInstance();
+		for (AudioRecord ar: audioRecordHour.getAudioRecords()) {
+			idx = 0;
+			maxVolume = 0;
+			cal.setTime(ar.getStart());
+			for (Integer vol : ar.getVolumes()) {
+				maxVolume = Math.max(maxVolume, vol);
+				idx++;
+				if (idx % groupBySeconds == 0) {
+					cal.add(Calendar.SECOND, groupBySeconds);
+					AudioRecord reducedAr = new AudioRecord();
+					reducedAr.setStart(cal.getTime());
+					reducedAr.setVolumes(asList(maxVolume));
+					ars.add(reducedAr);
+					maxVolume = 0;
+				}
+			}
+		}
+		return ars;
 	}
 	
 	@OnEvent(component="audioRecordDaySelectLink")
