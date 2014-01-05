@@ -15,7 +15,11 @@
 			     }
 			   },
 			   seriesDefaults:{
-			     showMarker:false
+			     showMarker:false,
+			     shadow:false
+			   },
+			   grid:{
+			     shadow: false
 			   }
 			 });
 	     });
