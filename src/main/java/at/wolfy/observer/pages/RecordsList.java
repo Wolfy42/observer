@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -95,10 +96,24 @@ public class RecordsList {
 	
 	public List<AudioRecord> getAudioRecordDayRecords() {
 		List<AudioRecord> ars = new LinkedList<>();
+		Integer maxVolume;
 		for (AudioRecordHour arh: audioRecordDay.getAudioRecordHours()) {
-			ars.addAll(arh.getAudioRecords());
+			maxVolume = 0;
+			for (AudioRecord ar : arh.getAudioRecords()) {
+				for (Integer vol : ar.getVolumes()) {
+					maxVolume = Math.max(0, vol);
+				}
+				AudioRecord reducedAr = new AudioRecord();
+				reducedAr.setStart(ar.getStart());
+				reducedAr.setVolumes(asList(maxVolume));
+				ars.add(reducedAr);
+			}
 		}
 		return ars;
+	}
+	
+	private List<Integer> asList(Integer value) {
+		return Arrays.asList(new Integer[]{value});
 	}
 	
 	public List<AudioRecord> getAudioRecordHourRecords() {
