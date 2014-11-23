@@ -2,11 +2,8 @@ package at.wolfy.observer.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 @Entity
@@ -17,8 +14,7 @@ public class AudioRecord implements Serializable {
 	@Id
 	private Date start;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<Integer> volumes;
+	private int[] volumes;
 	
 	private String directory;
 	private String file;
@@ -31,11 +27,11 @@ public class AudioRecord implements Serializable {
 		this.start = start;
 	}
 
-	public List<Integer> getVolumes() {
+	public int[] getVolumes() {
 		return volumes;
 	}
 
-	public void setVolumes(List<Integer> volumes) {
+	public void setVolumes(int[] volumes) {
 		this.volumes = volumes;
 	}
 

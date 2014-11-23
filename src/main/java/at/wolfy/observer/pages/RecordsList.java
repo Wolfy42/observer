@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -107,15 +106,15 @@ public class RecordsList {
 				}
 				AudioRecord reducedAr = new AudioRecord();
 				reducedAr.setStart(ar.getStart());
-				reducedAr.setVolumes(asList(maxVolume));
+				reducedAr.setVolumes(asArray(maxVolume));
 				ars.add(reducedAr);
 			}
 		}
 		return ars;
 	}
 	
-	private List<Integer> asList(Integer value) {
-		return Arrays.asList(new Integer[]{value});
+	private int[] asArray(Integer value) {
+		return new int[]{value};
 	}
 	
 	public List<AudioRecord> getAudioRecordHourRecords() {
@@ -135,7 +134,7 @@ public class RecordsList {
 					cal.add(Calendar.SECOND, groupBySeconds);
 					AudioRecord reducedAr = new AudioRecord();
 					reducedAr.setStart(cal.getTime());
-					reducedAr.setVolumes(asList(maxVolume));
+					reducedAr.setVolumes(asArray(maxVolume));
 					ars.add(reducedAr);
 					maxVolume = 0;
 				}

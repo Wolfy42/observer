@@ -47,7 +47,7 @@ public class AnalyzingServiceImpl implements AnalyzingService {
 				String[] parts = record.getName().split("_");
 				Date date = recordFormatter.parse(parts[0] + parts[1]);
 				if (isNotAnalyzed(startDates, date)) {
-					List<Integer> maxVolumes = calculateMaxVolumes(record);
+					int[] maxVolumes = calculateMaxVolumes(record);
 					AudioRecord ar = new AudioRecord();
 					ar.setStart(date);
 					ar.setVolumes(maxVolumes);
@@ -70,7 +70,7 @@ public class AnalyzingServiceImpl implements AnalyzingService {
 		return true;
 	}
 
-	private List<Integer> calculateMaxVolumes(File audioRecord) throws IOException, UnsupportedAudioFileException {
+	private int[] calculateMaxVolumes(File audioRecord) throws IOException, UnsupportedAudioFileException {
 		log.info("Going to analyze " + audioRecord.getName());
 		byte[] audioBytes;
 		int sampleRate;
@@ -102,6 +102,12 @@ public class AnalyzingServiceImpl implements AnalyzingService {
 				idx = 0;
 			}
 		}
-		return maxVolumes;
+		int[] result = new int[maxVolumes.size()];
+		idx = 0;
+		for (Integer vol : maxVolumes) {
+			result[idx] = vol;
+			idx++;
+		}
+		return result;
 	}
 }

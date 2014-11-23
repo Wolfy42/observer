@@ -48,7 +48,7 @@ public class AudioGraph {
     			cal.setTime(ar.getStart());
     		}
     		
-        	for (Integer result : ar.getVolumes()) {
+        	for (int result : ar.getVolumes()) {
         		if  (sb.length() != 0) {
         			sb.append(",");
         		}
