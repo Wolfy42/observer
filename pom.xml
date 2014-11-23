@@ -13,12 +13,16 @@
         	<artifactId>tapestry-core</artifactId>
         	<version>${tapestry-release-version}</version>
         </dependency>
-
         <dependency>
         	<groupId>org.apache.tapestry</groupId>
-        	<artifactId>tapestry-hibernate</artifactId>
+        	<artifactId>tapestry-jpa</artifactId>
         	<version>${tapestry-release-version}</version>
         </dependency>
+        <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate-release-version}</version>
+		</dependency>
         
         <dependency>
             <groupId>hsqldb</groupId>
@@ -47,12 +51,10 @@
 will fail, preventing Maven from packaging the WAR. Tapestry includes a large number
 of testing facilities designed for use with TestNG (http://testng.org/), so it's recommended. -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng-release-version}</version>
-            <scope>test</scope>
-        </dependency>
-
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-release-version}</version>
+		</dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
@@ -164,5 +166,7 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         <servlet-api-release-version>2.5</servlet-api-release-version>
         <testng-release-version>5.14.10</testng-release-version>
         <easymock-release-version>3.0</easymock-release-version>
+        <hibernate-release-version>4.3.7.Final</hibernate-release-version>
+        <junit-release-version>4.11</junit-release-version>
     </properties>
 </project>
