@@ -6,11 +6,12 @@
    <persistence-unit name="observer" transaction-type="RESOURCE_LOCAL">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <properties>
-         <property name="hibernate.connection.url" value="jdbc:hsqldb:file:/opt/observer/db/observer;shutdown=true"></property>
+      	 <property name="hibernate.connection.url" value="jdbc:hsqldb:file:/opt/observer/db/observer;shutdown=true"></property>
          <property name="hibernate.connection.username" value="sa"></property>
          <property name="hibernate.connection.password" value=""></property>
          <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"></property>
          <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
          <property name="hibernate.hbm2ddl.auto" value="update"/>
          <property name="hibernate.show_sql" value="false"/>
          <property name="hibernate.format_sql" value="true"/>
