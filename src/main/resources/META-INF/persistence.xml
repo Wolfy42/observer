@@ -4,7 +4,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
    <persistence-unit name="observer" transaction-type="RESOURCE_LOCAL">
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
       <properties>
       	 <property name="hibernate.connection.url" value="jdbc:hsqldb:file:/opt/observer/db/observer;shutdown=true"></property>
          <property name="hibernate.connection.username" value="sa"></property>
@@ -15,6 +15,12 @@
          <property name="hibernate.hbm2ddl.auto" value="update"/>
          <property name="hibernate.show_sql" value="false"/>
          <property name="hibernate.format_sql" value="true"/>
+         
+         <property name="hibernate.c3p0.min_size" value="1"/>
+		 <property name="hibernate.c3p0.max_size" value="3"/>
+		 <property name="hibernate.c3p0.timeout" value="300"/>
+		 <property name="hibernate.c3p0.max_statements" value="50"/>
+      	 <property name="hibernate.c3p0.idle_test_period" value="3000"/>
       </properties>
    </persistence-unit>
 </persistence>
